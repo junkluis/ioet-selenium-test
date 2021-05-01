@@ -15,16 +15,16 @@ class espolCareerInformation(unittest.TestCase):
     def test_search_in_python_org(self):
 
         page = educationPage.EdPage(self.driver)
-        info = page.get_faculties_career()
+        carreras = page.get_faculties_career()
+        acreditaciones = page.search_acreditations()
+        info = page.get_faculties_info()
         csv = toolbox.CSVtools()
-        header = ['career_name_es', 'faculty_name', 'link_to_career_curriculum']
+        header = ['career_name_es', 'faculty_name', 'link_to_career_curriculum', 'acreditation']
         csv.infoToCSV(info, header)
+        self.assertGreater(carreras, 0), 'ok mi pnaa'
+        self.assertGreater(acreditaciones, 0), 'ke hay'
 
-        self.assertEqual(1,1)
-        #print(str(page.buscarPaneles))
-        # main_page = educationPage.MainPage( self.driver )
-        # assert search_results_page.is_results_found( )
-    
+
     def tearDown(self):
         self.driver.close()
 

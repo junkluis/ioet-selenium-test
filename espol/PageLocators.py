@@ -6,3 +6,4 @@ class FacultyLocator(object):
     FACULTY_PANELS = (By.XPATH, "//div[@id='grado']//div[@class='panel panel-default']")
     FACULTY_TITTLE = (By.XPATH, ".//a[contains(text(), 'Facultad')]")
     FACULTY_CAREER = (By.XPATH, ".//li//a")
+    ACREDITACION = (By.XPATH, "//div[@class='field-item even']//*[contains(text(), 'Acreditación Internacional')]")

@@ -1,7 +1,6 @@
 from espol.PageLocators import FacultyLocator
-from espol.PageElements import PageElement
-
-
+import time
+from selenium.common.exceptions import NoSuchElementException
 
 
 class BasePage(object):
@@ -11,11 +10,13 @@ class BasePage(object):
 
 class EdPage(BasePage):
 
-    #buscarPaneles = searchPanels()
+    facultiesInfo = []
+
+    def get_faculties_info(self):
+        return self.facultiesInfo
 
     def get_faculties_career(self):
         facultiesPanel = self.driver.find_elements(*FacultyLocator.FACULTY_PANELS)
-        facultiesInfo = []
         for panel in facultiesPanel:
             titulo = self.search_title(panel)
             careers = self.search_careers(panel)
@@ -24,9 +25,25 @@ class EdPage(BasePage):
                 info.append(career[0])
                 info.append(titulo)
                 info.append(career[1])
-                facultiesInfo.append(info)
-        return facultiesInfo
-        
+                self.facultiesInfo.append(info)
+        return len(self.facultiesInfo)
+    
+    def search_acreditations(self):
+        careers_with_acreditation = 0
+        for index, item in enumerate(self.facultiesInfo, start=0):
+            self.driver.get(item[2])
+            acreditation = False
+            try:
+                acreditacion = self.driver.find_element(*FacultyLocator.ACREDITACION)
+                if( acreditacion is not None ):
+                    acreditation = True
+                    careers_with_acreditation += 1
+                else:
+                    acreditation = False
+            except NoSuchElementException:
+                acreditacion = False
+            self.facultiesInfo[index].append(acreditation)
+        return careers_with_acreditation
     
     def search_title(self, panel):
         titulo = panel.find_element(*FacultyLocator.FACULTY_TITTLE)
