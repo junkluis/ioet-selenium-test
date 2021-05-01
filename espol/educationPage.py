@@ -1,5 +1,4 @@
 from espol.PageLocators import FacultyLocator
-import time
 from selenium.common.exceptions import NoSuchElementException
 
 
